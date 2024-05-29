@@ -12,6 +12,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { envKeys } from '../config/config.keys';
 import { UserAuthGuard } from './auth/user-auth.guard';
 import { RolesGuard } from './auth/roles.guard';
+import { PaymentModule } from '../payment/payment.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { RolesGuard } from './auth/roles.guard';
       inject: [ConfigService],
     }),
     ConfigModule,
+    PaymentModule,
   ],
   controllers: [UserController, AuthController],
   providers: [

@@ -26,6 +26,7 @@ import { Public } from './auth/is-public.decorator';
 import { RolesGuard } from './auth/roles.guard';
 import { Roles } from './auth/roles.decorator';
 import { RoleEnum } from './models/user.enum';
+import { RequestPaymentDto } from '../payment/models/dto/request-payment.dto';
 
 @ApiTags('User')
 @UseGuards(UserAuthGuard, RolesGuard)
@@ -147,5 +148,23 @@ export class UserController {
       throw ex;
     }
     return deletedUser;
+  }
+
+  // Lipa na mpesa
+  @Public()
+  @Post('lipa-na-mpesa')
+  async lipaNaMpesaOnline(
+    @Body() requestData: RequestPaymentDto,
+  ): Promise<any> {
+    try {
+      this.logger.log(
+        `Controller [lipaNaMpesaOnline] make payment request with phone number: ${requestData.phoneNumber} and amount: ${requestData.amount}`,
+      );
+      const result = await this.userService.lipaNaMpesaOnline(requestData);
+      return result.data;
+    } catch (error) {
+      console.error(error);
+      throw new Error('Failed to process Lipa Na M-Pesa payment');
+    }
   }
 }

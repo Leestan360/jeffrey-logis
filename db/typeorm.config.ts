@@ -21,6 +21,7 @@ export default new DataSource({
     configService.get<string>(envKeys.CURRENT_ENV) === 'DEV' ? true : false,
   migrations: [`${__dirname}/migrations/*{.ts,.js}`],
   migrationsTableName: 'migrations',
+  // ssl: false,
   ssl: {
     rejectUnauthorized: configService.get<boolean>(
       envKeys.DATABASE_SSL_REJECT_UNAUTHORIZED,

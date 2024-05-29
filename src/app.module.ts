@@ -7,6 +7,7 @@ import { DatabaseModule } from './database/database.module';
 import { DefaultModule } from './default/default.module';
 import { SharedModule } from './shared/shared.module';
 import { UserModule } from './user/user.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { UserModule } from './user/user.module';
     DefaultModule,
     SharedModule,
     UserModule,
+    PaymentModule,
   ],
 })
 export class AppModule {}

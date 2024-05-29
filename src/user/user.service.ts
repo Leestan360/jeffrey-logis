@@ -10,12 +10,18 @@ import { FindManyOptions, FindOneOptions, FindOptionsWhere } from 'typeorm';
 import { UserEntity } from './models/entities/user.entity';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { UserResponseWithPassDto } from './models/dto/user-response-with-pass.dto';
+import { PaymentService } from '../payment/payment.service';
+import { RequestPaymentDto } from 'src/payment/models/dto/request-payment.dto';
+import { AxiosResponse } from 'axios';
 
 @Injectable()
 export class UserService {
   private readonly logger = new Logger(UserService.name);
 
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly paymentService: PaymentService,
+  ) {}
 
   // Create a new user
   async createUser(
@@ -86,6 +92,16 @@ export class UserService {
       id: id,
     };
     return await this.userRepository.softDeleteUserByField(deleteOptions);
+  }
+
+  // Lipa na mpesa
+  async lipaNaMpesaOnline(
+    data: RequestPaymentDto,
+  ): Promise<AxiosResponse<any>> {
+    this.logger.log(
+      `Service [lipaNaMpesaOnline] make payment request with phone number: ${data.phoneNumber} and amount: ${data.amount}`,
+    );
+    return await this.paymentService.lipaNaMpesaOnline(data);
   }
 
   // Format phone number
