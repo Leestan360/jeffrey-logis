@@ -151,7 +151,6 @@ export class UserController {
   }
 
   // Lipa na mpesa
-  @Public()
   @Post('lipa-na-mpesa')
   async lipaNaMpesaOnline(
     @Body() requestData: RequestPaymentDto,
